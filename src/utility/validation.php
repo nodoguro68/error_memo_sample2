@@ -1,5 +1,7 @@
 <?php
 
+require_once './message.php';
+
 /**
  * 必須入力チェック
  * 
