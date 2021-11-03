@@ -22,7 +22,7 @@ function dbConnect(){
     return $dbh;
 
     } catch(PDOException $e){
-
+        $err_msg['common'] = ERR_MSG_DB_CONNECT;
         exit('DB接続エラー'.$e->getMessage());
 
     }
