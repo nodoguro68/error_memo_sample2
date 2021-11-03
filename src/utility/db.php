@@ -7,7 +7,7 @@
  * @param array $params
  * @return object
  */
-function execute(object $dbh, string $sql, array $params)
+function execute($dbh, $sql, $params)
 {
 
     $stmt = $dbh->prepare($sql);
@@ -26,7 +26,7 @@ function execute(object $dbh, string $sql, array $params)
  * @param array $params
  * @return mixed
  */
-function fetch(object $dbh, string $sql, array $params)
+function fetch($dbh, $sql, $params)
 {
     return execute($dbh, $sql, $params)->fetch(PDO::FETCH_ASSOC);
 }
@@ -38,7 +38,7 @@ function fetch(object $dbh, string $sql, array $params)
  * @param array $params
  * @return mixed
  */
-function fetchAll(object $dbh, string $sql, array $params)
+function fetchAll($dbh, $sql, $params)
 {
     return execute($dbh, $sql, $params)->fetchAll(PDO::FETCH_ASSOC);
 }
