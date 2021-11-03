@@ -33,7 +33,7 @@ if (!empty($_POST)) {
     }
 }
 
-$page_title = 'トップページ';
+$page_title = 'ユーザー登録ページ';
 require_once '../template/head.php';
 require_once '../template/header.php';
 ?>
