@@ -1,5 +1,10 @@
 <?php 
 
+/**
+ * DB接続
+ * 
+ * @return object
+ */
 function dbConnect(){
     try{
         $dsn = 'mysql:dbname=error_memo;host=127.0.0.1;charset=utf8';
