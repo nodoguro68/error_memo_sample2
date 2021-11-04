@@ -6,16 +6,28 @@
  * @param array $err_msg
  * @param string $mail_address
  * @param string $password
+ * @param bool $admin_flag
  */
-function createUser(&$err_msg, $mail_address, $password)
+function createUser(&$err_msg, $mail_address, $password, $admin_flag)
 {
 
     try {
         $dbh = dbConnect();
 
-        $sql = 'INSERT INTO users (mail_address, password, login_time, created_at) VALUES(:mail_address, :password, :login_time, :created_at)';
+        if($admin_flag) {
+            
+            $authority = 100;
+            $sql = 'INSERT INTO users (authority, mail_address, password, login_time, created_at) VALUES(:authority, :mail_address, :password, :login_time, :created_at)';
 
+
+        } else {
+
+            $authority = 1;
+            $sql = 'INSERT INTO users (mail_address, password, login_time, created_at) VALUES(:mail_address, :password, :login_time, :created_at)';
+        }
+        
         $data = array(
+            ':authority' => $authority,
             ':mail_address' => $mail_address,
             ':password' => password_hash($password, PASSWORD_DEFAULT),
             ':login_time' => date('Y-m-d H:i:s'),
@@ -24,12 +36,10 @@ function createUser(&$err_msg, $mail_address, $password)
 
         if (execute($dbh, $sql, $data)) {
 
-            // セッション
             $session_limit = 60 * 60;
             $_SESSION['login_date'] = time();
             $_SESSION['login_limit'] = $session_limit;
 
-            // ユーザーIDを格納
             $_SESSION['user_id'] = $dbh->lastInsertId();
         }
     } catch (Exception $e) {
