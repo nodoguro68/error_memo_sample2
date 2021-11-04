@@ -5,10 +5,10 @@ require_once '../function/user.php';
 
 
 if (!empty($_POST)) {
-
     $mail_address = filter_input(INPUT_POST, 'mail_address');
     $password = filter_input(INPUT_POST, 'password');
     $password_re = filter_input(INPUT_POST, 'password_re');
+    $admin_flag = false;
 
     validRequired($err_msg, $mail_address, 'mail_address');
     validRequired($err_msg, $password, 'password');
@@ -26,7 +26,7 @@ if (!empty($_POST)) {
 
         if (empty($err_msg)) {
 
-            createUser($err_msg, $mail_address, $password);
+            createUser($err_msg, $mail_address, $password, $admin_flag);
 
             header('Location: mypage.php');
         }
