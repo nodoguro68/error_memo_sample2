@@ -186,3 +186,26 @@ function validLength(&$err_msg, $str, $key, $len = 8)
         $err_msg[$key] = $len . ERR_MSG_LENGTH;
     }
 }
+
+
+/**
+ * カテゴリー重複チェック
+ * @param array $err_msg
+ * @param int $user_id
+ * @param string $category
+ */
+function validCategoryDup(&$err_msg, $user_id, $category){
+
+    $dbh = dbConnect();
+    $sql = 'SELECT count(*) FROM categories WHERE user_id = :user_id AND title = :title AND is_deleted = 0';
+    $data = array(
+        ':title' => $category,
+        ':user_id' => $user_id
+    );
+
+    $result = fetch($dbh, $sql, $data);
+
+    if (!empty(array_shift($result))) {
+        $err_msg['common'] = ERR_MSG_CATEGORY_DUP;
+    }
+}
