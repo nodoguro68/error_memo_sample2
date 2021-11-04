@@ -13,6 +13,7 @@ if(!empty($_POST)) {
         $category = trim(filter_input(INPUT_POST, 'create_category'));
 
         validMaxLen($err_msg, $category, 'common');
+        validCategoryDup($err_msg, $user_id, $category);
 
         if(empty($err_msg)) {
 
