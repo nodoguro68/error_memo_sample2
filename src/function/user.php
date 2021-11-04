@@ -40,7 +40,11 @@ function createUser(&$err_msg, $mail_address, $password, $admin_flag)
             $_SESSION['login_date'] = time();
             $_SESSION['login_limit'] = $session_limit;
 
-            $_SESSION['user_id'] = $dbh->lastInsertId();
+            if($admin_flag) {
+                $_SESSION['admin_user_id'] = $dbh->lastInsertId();
+            } else {
+                $_SESSION['user_id'] = $dbh->lastInsertId();
+            }
         }
     } catch (Exception $e) {
         error_log('エラー発生:' . $e->getMessage());
