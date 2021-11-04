@@ -18,6 +18,7 @@ const ERR_MSG_EXPIRE = '有効期限が切れています';
 const ERR_MSG_SEND_MAIL = 'メールの送信に失敗しました';
 const ERR_MSG_MATCH = '正しくありません';
 const ERR_MSG_LENGTH = '文字で入力してください';
+const ERR_MSG_CATEGORY_DUP = '既に登録されているカテゴリー名です';
 const SUC_MSG_REGISTER_USER = 'ユーザー登録が完了しました';
 const SUC_MSG_LOGIN = 'ログインしました';
 const SUC_MSG_LOGOUT = 'ログアウトされました';
