@@ -9,6 +9,7 @@ if (!empty($_POST)) {
     $mail_address = filter_input(INPUT_POST, 'mail_address');
     $password = filter_input(INPUT_POST, 'password');
     $pass_save = (!empty($_POST['pass_save'])) ? true : false;
+    $admin_flag = false;
 
     validRequired($err_msg, $mail_address, 'mail_address');
     validRequired($err_msg, $password, 'password');
@@ -19,10 +20,10 @@ if (!empty($_POST)) {
         validPass($err_msg, $password, 'password');
     
         if (empty($err_msg)) {
-            
-            login($err_msg, $mail_address, $password, $pass_save);
-    
-            header('Location: mypage.php');
+
+            if (login($err_msg, $mail_address, $password, $pass_save, $admin_flag)) {
+                header('Location: mypage.php');
+            }    
         }
     }
 }
