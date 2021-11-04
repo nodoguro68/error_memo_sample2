@@ -76,7 +76,6 @@ function fetchUserDataByMailAddress(&$err_msg, $column, $mail_address, $admin_fl
             $sql = 'SELECT ' . $column . ' FROM users WHERE authority = 1 AND mail_address = :mail_address AND is_deleted = 0';
         }
         $data = array(':mail_address' => $mail_address);
-        var_dump($sql);
 
         $user_data = fetch($dbh, $sql, $data);
         return $user_data;
@@ -101,7 +100,6 @@ function login(&$err_msg, $mail_address, $password, $pass_save, $admin_flag)
 {
 
     $user_data = fetchUserDataByMailAddress($err_msg, 'user_id,password', $mail_address, $admin_flag);
-    var_dump($user_data);
 
 
     if (!empty($user_data) && password_verify($password, $user_data['password'])) {
