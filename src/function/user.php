@@ -59,17 +59,24 @@ function createUser(&$err_msg, $mail_address, $password, $admin_flag)
  * @param array $err_msg
  * @param string $column
  * @param string $mail_address
+ * @param bool $admin_flag
  * @return mixed
  */
-function fetchUserDataByMailAddress(&$err_msg, $column, $mail_address)
+function fetchUserDataByMailAddress(&$err_msg, $column, $mail_address, $admin_flag)
 {
 
     try {
 
         $dbh = dbConnect();
 
-        $sql = 'SELECT ' . $column . ' FROM users WHERE mail_address = :mail_address AND is_deleted = 0';
+        if($admin_flag) {
+            $sql = 'SELECT ' . $column . ' FROM users WHERE authority = 100 AND mail_address = :mail_address AND is_deleted = 0';
+
+        } else {
+            $sql = 'SELECT ' . $column . ' FROM users WHERE authority = 1 AND mail_address = :mail_address AND is_deleted = 0';
+        }
         $data = array(':mail_address' => $mail_address);
+        var_dump($sql);
 
         $user_data = fetch($dbh, $sql, $data);
         return $user_data;
@@ -87,18 +94,26 @@ function fetchUserDataByMailAddress(&$err_msg, $column, $mail_address)
  * @param string $mail_address
  * @param string $password
  * @param bool $pass_save
+ * @param bool $admin_flag
  */
 
-function login(&$err_msg, $mail_address, $password, $pass_save)
+function login(&$err_msg, $mail_address, $password, $pass_save, $admin_flag)
 {
 
-    $user_data = fetchUserDataByMailAddress($err_msg, 'user_id,password', $mail_address);
+    $user_data = fetchUserDataByMailAddress($err_msg, 'user_id,password', $mail_address, $admin_flag);
+    var_dump($user_data);
+
 
     if (!empty($user_data) && password_verify($password, $user_data['password'])) {
 
         $session_limit = 60 * 60;
         $_SESSION['login_date'] = time();
-        $_SESSION['user_id'] = (int)$user_data['user_id'];
+
+        if($admin_flag) {
+            $_SESSION['admin_user_id'] = (int)$user_data['user_id'];
+        } else {
+            $_SESSION['user_id'] = (int)$user_data['user_id'];
+        }
         
         if ($pass_save) {
             $_SESSION['login_limit'] = $session_limit * 24 * 30;
@@ -106,6 +121,8 @@ function login(&$err_msg, $mail_address, $password, $pass_save)
             $_SESSION['login_limit'] = $session_limit;
 
         }
+
+        return true;
 
     } else {
         $err_msg['common'] = ERR_MSG_LOGIN;
