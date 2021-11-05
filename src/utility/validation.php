@@ -212,6 +212,8 @@ function validCategoryDup(&$err_msg, $user_id, $category){
 
 /**
  * 空白文字チェック
+ * @param array $err_msg
+ * @param string $str
  */
 function validWhiteSpace(&$err_msg, $str) {
     if ($str === '' || $str === '　') {
