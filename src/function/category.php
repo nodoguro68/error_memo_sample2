@@ -56,6 +56,8 @@ function fetchCategories(&$err_msg){
 
 /**
  * カテゴリー削除
+ * @param array $err_msg
+ * @param int $category_id
  */
 function deleteCategory(&$err_msg, $category_id) {
 
