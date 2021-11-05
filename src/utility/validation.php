@@ -209,3 +209,12 @@ function validCategoryDup(&$err_msg, $user_id, $category){
         $err_msg['common'] = ERR_MSG_CATEGORY_DUP;
     }
 }
+
+/**
+ * 空白文字チェック
+ */
+function validWhiteSpace(&$err_msg, $str) {
+    if ($str === '' || $str === '　') {
+        $err_msg['common'] = ERR_MSG_WHITE_SPACE;
+    }
+}
