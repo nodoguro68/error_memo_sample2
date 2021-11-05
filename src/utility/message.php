@@ -20,6 +20,7 @@ const ERR_MSG_MATCH = '正しくありません';
 const ERR_MSG_LENGTH = '文字で入力してください';
 const ERR_MSG_WHITE_SPACE = '空白文字は入力できません';
 const ERR_MSG_CATEGORY_DUP = '既に登録されているカテゴリー名です';
+const ERR_MSG_FOLDER_DUP = '既に登録されているフォルダ名です';
 const SUC_MSG_REGISTER_USER = 'ユーザー登録が完了しました';
 const SUC_MSG_LOGIN = 'ログインしました';
 const SUC_MSG_LOGOUT = 'ログアウトされました';
