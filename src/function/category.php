@@ -52,3 +52,28 @@ function fetchCategories(&$err_msg){
         $err_msg['common'] = ERR_MSG;
     }
 }
+
+
+/**
+ * カテゴリー削除
+ */
+function deleteCategory(&$err_msg, $category_id) {
+
+    try {
+
+        $dbh = dbConnect();
+
+        $sql = 'UPDATE categories SET is_deleted = 1 WHERE category_id = :category_id AND is_deleted = 0';
+        $data = array(
+            ':category_id' => $category_id,
+        );
+
+        if (execute($dbh, $sql, $data)) {
+            return true;
+        }
+
+    } catch (Exception $e) {
+        error_log('エラー発生:' . $e->getMessage());
+        $err_msg['common'] = ERR_MSG;
+    }
+}
