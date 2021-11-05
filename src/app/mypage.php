@@ -7,6 +7,17 @@ require_once '../function/folder.php';
 $user_id = $_SESSION['user_id'];
 $folders = fetchFolders($err_msg, $user_id);
 
+if(!empty($_GET)) {
+
+    if (!empty($_GET['folder_id'])) {
+        $folder_id = filter_input(INPUT_GET, 'folder_id');
+        $folder = fetchFolder($err_msg, $folder_id, $user_id);
+        $folder_id = $folder['folder_id'];
+        $folder_title = $folder['title'];
+    }
+
+}
+
 
 if (!empty($_POST)) {
 
@@ -63,15 +74,27 @@ require_once '../template/header.php';
         <ul class="folder-list">
             <?php if (!empty($folders)) : ?>
                 <?php foreach ($folders as $folder) : ?>
-                    <li class="folder-list__item"><a href="mypage.php?folder_id=<?= escape($folder['folder_id']); ?>" class="folder-list__link"><?= escape($folder['title']); ?><span class="memo-count">1</span></a></li>
+                    <li class="folder-list__item"><a href="mypage.php?delete_folder=<?= escape($folder['folder_id']); ?>" class="folder-list__link"><?= escape($folder['title']); ?><span class="memo-count">1</span></a></li>
                 <?php endforeach; ?>
             <?php endif; ?>
         </ul>
 
         <!-- 自分のメモリスト -->
-        <ul class="memo-list">
-            <li class="memo-list__item"><a href="" class="memo-list__link">メモ</a></li>
-        </ul>
+        <section class="section">
+            <div class="section__header">
+                <h2 class="folder-title">
+                    <?php if(!empty($folder_title)): ?>
+                        <?= escape($folder_title); ?>
+                    <?php endif; ?>
+                </h2>
+                <div class="btn-container">
+                    <a href="mypage.php?folder_id=<?= escape($folder_id); ?>">削除</a>
+                </div>
+            </div>
+            <ul class="memo-list">
+                <li class="memo-list__item"><a href="" class="memo-list__link">メモ</a></li>
+            </ul>
+        </section>
 
         <!-- いいね蘭のメモリスト -->
         <ul class="memo-list">
