@@ -4,26 +4,25 @@ require_once '../utility/utility.php';
 require_once '../function/category.php';
 
 $user_id = $_SESSION['admin_user_id'];
+$categories = fetchCategories($err_msg);
 
 
-if(!empty($_POST)) {
+if (!empty($_POST)) {
 
-    if(!empty($_POST['create_category'])){
-        
+    if (!empty($_POST['create_category'])) {
+
         $category = trim(filter_input(INPUT_POST, 'create_category'));
 
         validMaxLen($err_msg, $category, 'common');
         validCategoryDup($err_msg, $user_id, $category);
 
-        if(empty($err_msg)) {
+        if (empty($err_msg)) {
 
             createCategory($err_msg, $user_id, $category);
 
             header('Location: admin.php');
         }
     }
-
-
 }
 
 
@@ -51,10 +50,14 @@ require_once '../template/header.php';
 
         <form action="" method="post" class="category-list__form">
             <ul class="category-list">
-                <li class="category-list__item">
-                    <span>カテゴリー</span>
-                    <span><button type="submit" name="delete_category" value="">削除</button></span>
-                </li>
+                <?php if (!empty($categories)) : ?>
+                    <?php foreach ($categories as $category) : ?>
+                        <li class="category-list__item">
+                            <span><?= escape($category['title']); ?></span>
+                            <span><button type="submit" name="delete_category" value="<?= escape($category['category_id']); ?>">削除</button></span>
+                        </li>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </ul>
         </form>
     </div>
