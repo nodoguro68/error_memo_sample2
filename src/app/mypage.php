@@ -5,6 +5,8 @@ require_once '../function/user.php';
 require_once '../function/folder.php';
 
 $user_id = $_SESSION['user_id'];
+$folders = fetchFolders($err_msg, $user_id);
+
 
 if (!empty($_POST)) {
 
@@ -59,7 +61,11 @@ require_once '../template/header.php';
 
         <!-- フォルダリスト -->
         <ul class="folder-list">
-            <li class="folder-list__item"><a href="" class="folder-list__link">フォルダ<span class="memo-count"></span></a></li>
+            <?php if (!empty($folders)) : ?>
+                <?php foreach ($folders as $folder) : ?>
+                    <li class="folder-list__item"><a href="mypage.php?folder_id=<?= escape($folder['folder_id']); ?>" class="folder-list__link"><?= escape($folder['title']); ?><span class="memo-count">1</span></a></li>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </ul>
 
         <!-- 自分のメモリスト -->
