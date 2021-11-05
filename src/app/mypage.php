@@ -39,7 +39,7 @@ require_once '../template/header.php';
             <li class="link-list__item"><a href="pass_edit.php" class="link-list__link">パスワード変更</a></li>
             <li class="link-list__item"><a href="signout.php" class="link-list__link">退会</a></li>
         </ul>
-        
+
         <!-- メモ検索バー -->
         <form action="" method="post" class="search-form">
             <input type="text" name="search_memo" class="form__input" placeholder="メモを検索">
@@ -71,6 +71,8 @@ require_once '../template/header.php';
         <ul class="memo-list">
             <li class="memo-list__item"><a href="" class="memo-list__link">いいね</a></li>
         </ul>
+
+        <?php include_once '../template/err-msg_area.php'; ?>
 
         <!-- フォルダ追加フォーム -->
         <form action="" method="post" class="folder-form">
