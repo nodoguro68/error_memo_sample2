@@ -23,6 +23,18 @@ if (!empty($_POST)) {
             header('Location: admin.php');
         }
     }
+
+    if (!empty($_POST['delete_category'])) {
+
+        $category_id = filter_input(INPUT_POST, 'delete_category');
+
+        if (empty($err_msg)) {
+
+            deleteCategory($err_msg, $category_id);
+
+            header('Location: admin.php');
+        }
+    }
 }
 
 
