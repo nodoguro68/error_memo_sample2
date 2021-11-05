@@ -28,3 +28,27 @@ function createCategory(&$err_msg, $user_id, $category) {
         $err_msg['common'] = ERR_MSG;
     }
 }
+
+
+/**
+ * カテゴリー一覧リスト取得
+ * @param array $err_msg
+ * @return
+ */
+function fetchCategories(&$err_msg){
+
+    try {
+
+        $dbh = dbConnect();
+
+        $sql = 'SELECT category_id, title FROM categories WHERE is_deleted = 0';
+        $stmt = $dbh->query($sql);
+
+        $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $categories;
+
+    } catch (Exception $e) {
+        error_log('エラー発生:' . $e->getMessage());
+        $err_msg['common'] = ERR_MSG;
+    }
+}
