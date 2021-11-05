@@ -27,3 +27,29 @@ function createFolder(&$err_msg, $user_id, $folder) {
         $err_msg['common'] = ERR_MSG;
     }
 }
+
+
+/**
+ * フォルダ一覧取得
+ * @param array $err_msg
+ * @param int $user_id
+ * @return
+ */
+function fetchFolders(&$err_msg, $user_id)
+{
+
+    try {
+
+        $dbh = dbConnect();
+
+        $sql = 'SELECT folder_id, title FROM folders WHERE user_id = :user_id AND is_deleted = 0';
+        $data = array(':user_id' => $user_id);
+
+        $folders = fetchAll($dbh, $sql, $data);
+        return $folders;
+        
+    } catch (Exception $e) {
+        error_log('エラー発生:' . $e->getMessage());
+        $err_msg['common'] = ERR_MSG;
+    }
+}
