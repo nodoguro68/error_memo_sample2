@@ -218,3 +218,14 @@ function validWhiteSpace(&$err_msg, $str) {
         $err_msg['common'] = ERR_MSG_WHITE_SPACE;
     }
 }
+
+/**
+ * 数値チェック
+ * @param array $err_msg
+ * @param int $int
+ */
+function validInt(&$err_msg, $int) {
+    if(!is_int($int)) {
+        $err_msg['common'] = ERR_MSG;
+    }
+}
