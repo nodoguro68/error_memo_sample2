@@ -2,6 +2,29 @@
 
 require_once '../utility/utility.php';
 require_once '../function/user.php';
+require_once '../function/folder.php';
+
+$user_id = $_SESSION['user_id'];
+
+if (!empty($_POST)) {
+
+    if (!empty($_POST['create_folder'])) {
+
+        $folder = trim(filter_input(INPUT_POST, 'create_folder'));
+
+        validWhiteSpace($err_msg, $folder);
+        validMaxLen($err_msg, $folder, 'common');
+        validFolderDup($err_msg, $user_id, $folder);
+
+        if (empty($err_msg)) {
+
+            createFolder($err_msg, $user_id, $folder);
+
+            header('Location: mypage.php');
+        }
+    }
+}
+
 
 $page_title = 'マイページ';
 require_once '../template/head.php';
