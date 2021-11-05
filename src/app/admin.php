@@ -27,7 +27,10 @@ if (!empty($_POST)) {
 
     if (!empty($_POST['delete_category'])) {
 
-        $category_id = filter_input(INPUT_POST, 'delete_category');
+        $category_id = (int)filter_input(INPUT_POST, 'delete_category');
+        var_dump($category_id);
+
+        validInt($err_msg, $category_id);
 
         if (empty($err_msg)) {
 
