@@ -210,6 +210,28 @@ function validCategoryDup(&$err_msg, $user_id, $category){
     }
 }
 
+/*
+ * フォルダ重複チェック
+ * @param array $err_msg
+ * @param int $user_id
+ * @param string $folder
+ */
+function validFolderDup(&$err_msg, $user_id, $folder){
+
+    $dbh = dbConnect();
+    $sql = 'SELECT count(*) FROM folders WHERE user_id = :user_id AND title = :title AND is_deleted = 0';
+    $data = array(
+        ':title' => $folder,
+        ':user_id' => $user_id
+    );
+
+    $result = fetch($dbh, $sql, $data);
+
+    if (!empty(array_shift($result))) {
+        $err_msg['common'] = ERR_MSG_FOLDER_DUP;
+    }
+}
+
 /**
  * 空白文字チェック
  * @param array $err_msg
