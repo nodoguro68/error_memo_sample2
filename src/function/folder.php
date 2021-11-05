@@ -53,3 +53,33 @@ function fetchFolders(&$err_msg, $user_id)
         $err_msg['common'] = ERR_MSG;
     }
 }
+
+/**
+ * フォルダ取得
+ * @param array $err_msg
+ * @param int $folder_id
+ * @param int $user_id
+ * @return
+ */
+function fetchFolder(&$err_msg, $folder_id, $user_id)
+{
+
+    try {
+
+        $dbh = dbConnect();
+
+        $sql = 'SELECT folder_id, title FROM folders WHERE folder_id = :folder_id AND user_id = :user_id AND is_deleted = 0';
+        $data = array(
+            ':folder_id' => $folder_id,
+            ':user_id' => $user_id,
+        );
+
+        $folder = fetch($dbh, $sql, $data);
+        return $folder;
+
+    } catch (Exception $e) {
+        error_log('エラー発生:' . $e->getMessage());
+        $err_msg['common'] = ERR_MSG;
+    }
+}
+
