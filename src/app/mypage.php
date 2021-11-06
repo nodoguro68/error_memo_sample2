@@ -122,6 +122,8 @@ require_once '../template/header.php';
             <input type="submit" value="＋">
         </form>
 
+        <a href="memo.php" class="">メモを追加する</a>
+
     </div>
 
 </main>
