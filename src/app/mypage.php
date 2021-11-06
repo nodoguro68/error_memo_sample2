@@ -11,11 +11,21 @@ if(!empty($_GET)) {
 
     if (!empty($_GET['folder_id'])) {
         $folder_id = filter_input(INPUT_GET, 'folder_id');
-        $folder = fetchFolder($err_msg, $folder_id, $user_id);
-        $folder_id = $folder['folder_id'];
-        $folder_title = $folder['title'];
+        $db_folder_data = fetchFolder($err_msg, $folder_id, $user_id);
     }
 
+    if (!empty($_GET['delete_folder_id'])) {
+        $folder_id = (int)filter_input(INPUT_GET, 'delete_folder_id');
+
+        validInt($err_msg, $folder_id);
+
+        if (empty($err_msg)) {
+
+            deleteFolder($err_msg, $folder_id, $user_id);
+
+            header('Location: mypage.php');
+        }
+    }
 }
 
 
@@ -32,8 +42,9 @@ if (!empty($_POST)) {
         if (empty($err_msg)) {
 
             createFolder($err_msg, $user_id, $folder);
+            $db_folder_data = fetchFolderId($err_msg, $user_id, $folder);
 
-            header('Location: mypage.php');
+            header('Location: mypage.php?folder_id='.$db_folder_data['folder_id']);
         }
     }
 }
@@ -74,7 +85,7 @@ require_once '../template/header.php';
         <ul class="folder-list">
             <?php if (!empty($folders)) : ?>
                 <?php foreach ($folders as $folder) : ?>
-                    <li class="folder-list__item"><a href="mypage.php?delete_folder=<?= escape($folder['folder_id']); ?>" class="folder-list__link"><?= escape($folder['title']); ?><span class="memo-count">1</span></a></li>
+                    <li class="folder-list__item"><a href="mypage.php?folder_id=<?= escape($folder['folder_id']); ?>" class="folder-list__link"><?= escape($folder['title']); ?><span class="memo-count"></span></a></li>
                 <?php endforeach; ?>
             <?php endif; ?>
         </ul>
@@ -82,14 +93,16 @@ require_once '../template/header.php';
         <!-- 自分のメモリスト -->
         <section class="section">
             <div class="section__header">
-                <h2 class="folder-title">
-                    <?php if(!empty($folder_title)): ?>
-                        <?= escape($folder_title); ?>
-                    <?php endif; ?>
-                </h2>
-                <div class="btn-container">
-                    <a href="mypage.php?folder_id=<?= escape($folder_id); ?>">削除</a>
-                </div>
+                <?php if (!empty($db_folder_data['title'])) : ?>
+                    <h2 class="folder-title">
+                        <?= escape($db_folder_data['title']); ?>
+                    </h2>
+                    <div class="btn-container">
+                        <a href="mypage.php?delete_folder_id=<?= escape($db_folder_data['folder_id']); ?>">削除</a>
+                    </div>
+                <?php else: ?>
+                    <h2>フォルダが選択されていません</h2>
+                <?php endif; ?>
             </div>
             <ul class="memo-list">
                 <li class="memo-list__item"><a href="" class="memo-list__link">メモ</a></li>
