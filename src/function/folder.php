@@ -19,7 +19,6 @@ function createFolder(&$err_msg, $user_id, $folder) {
         );
 
         if (execute($dbh, $sql, $data)) {
-
             return;
         }
     } catch (Exception $e) {
@@ -83,3 +82,58 @@ function fetchFolder(&$err_msg, $folder_id, $user_id)
     }
 }
 
+/**
+ * フォルダID取得
+ * @param array $err_msg
+ * @param int $user_id
+ * @param string $folder
+ * @return
+ */
+function fetchFolderId(&$err_msg, $user_id, $folder)
+{
+
+    try {
+
+        $dbh = dbConnect();
+
+        $sql = 'SELECT folder_id FROM folders WHERE user_id = :user_id AND title = :title AND is_deleted = 0';
+        $data = array(
+            ':user_id' => $user_id,
+            ':title' => $folder,
+        );
+
+        $folder = fetch($dbh, $sql, $data);
+        return $folder;
+    } catch (Exception $e) {
+        error_log('エラー発生:' . $e->getMessage());
+        $err_msg['common'] = ERR_MSG;
+    }
+}
+
+/**
+ * フォルダ削除
+ * @param array $err_msg
+ * @param int $folder_id
+ * @param int $user_id
+ */
+function deleteFolder(&$err_msg, $folder_id, $user_id)
+{
+
+    try {
+
+        $dbh = dbConnect();
+
+        $sql = 'UPDATE folders SET is_deleted = 1 WHERE folder_id = :folder_id AND user_id = :user_id AND is_deleted = 0';
+        $data = array(
+            ':folder_id' => $folder_id,
+            ':user_id' => $user_id,
+        );
+
+        if (execute($dbh, $sql, $data)) {
+            return true;
+        }
+    } catch (Exception $e) {
+        error_log('エラー発生:' . $e->getMessage());
+        $err_msg['common'] = ERR_MSG;
+    }
+}
