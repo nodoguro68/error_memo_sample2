@@ -12,6 +12,7 @@ if(!empty($_GET)) {
     if (!empty($_GET['folder_id'])) {
         $folder_id = filter_input(INPUT_GET, 'folder_id');
         $db_folder_data = fetchFolder($err_msg, $folder_id, $user_id);
+        $_SESSION['folder_id'] = $folder_id;
     }
 
     if (!empty($_GET['delete_folder_id'])) {
@@ -122,7 +123,7 @@ require_once '../template/header.php';
             <input type="submit" value="＋">
         </form>
 
-        <a href="memo.php" class="">メモを追加する</a>
+        <a href="create_memo.php" class="">メモを追加する</a>
 
     </div>
 
