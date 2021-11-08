@@ -3,15 +3,17 @@
 require_once '../utility/utility.php';
 require_once '../function/user.php';
 require_once '../function/folder.php';
+require_once '../function/memo.php';
 
 $user_id = $_SESSION['user_id'];
 $folders = fetchFolders($err_msg, $user_id);
 
-if(!empty($_GET)) {
+if (!empty($_GET)) {
 
     if (!empty($_GET['folder_id'])) {
-        $folder_id = filter_input(INPUT_GET, 'folder_id');
+        $folder_id = (int)filter_input(INPUT_GET, 'folder_id');
         $db_folder_data = fetchFolder($err_msg, $folder_id, $user_id);
+        $memos = fetchMemos($err_msg, $user_id, $folder_id);
         $_SESSION['folder_id'] = $folder_id;
     }
 
@@ -45,7 +47,7 @@ if (!empty($_POST)) {
             createFolder($err_msg, $user_id, $folder);
             $db_folder_data = fetchFolderId($err_msg, $user_id, $folder);
 
-            header('Location: mypage.php?folder_id='.$db_folder_data['folder_id']);
+            header('Location: mypage.php?folder_id=' . $db_folder_data['folder_id']);
         }
     }
 }
@@ -101,12 +103,18 @@ require_once '../template/header.php';
                     <div class="btn-container">
                         <a href="mypage.php?delete_folder_id=<?= escape($db_folder_data['folder_id']); ?>">削除</a>
                     </div>
-                <?php else: ?>
+                <?php else : ?>
                     <h2>フォルダが選択されていません</h2>
                 <?php endif; ?>
             </div>
             <ul class="memo-list">
-                <li class="memo-list__item"><a href="" class="memo-list__link">メモ</a></li>
+                <?php if (!empty($memos)) : ?>
+                    <?php foreach ($memos as $memo) : ?>
+                        <li class="memo-list__item"><a href="memo.php?memo_id=<?= escape($memo['memo_id']); ?>" class="memo-list__link"><?= escape($memo['title']); ?></a></li>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <li>メモがありません</li>
+                <?php endif; ?>
             </ul>
         </section>
 
