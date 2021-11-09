@@ -40,3 +40,13 @@ function getFormData($key, $flag = false)
         return escape($method[$key]);
     }
 }
+
+/**
+ * 文字列切り出し
+ * @param string $str
+ * @param int $start
+ * @param int $length
+ */
+function formatStr($str, $start, $length) {
+    return $formatedStr = mb_substr($str, $start, $length);
+}
