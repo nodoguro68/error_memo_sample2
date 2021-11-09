@@ -71,3 +71,29 @@ function fetchMemos(&$err_msg, $user_id, $folder_id) {
         $err_msg['common'] = ERR_MSG;
     }
 }
+
+/**
+ * メモ詳細取得
+ * @param array $err_msg
+ * @param int $memo_id
+ * @return mixed
+ */
+function fetchMemo(&$err_msg, $memo_id)
+{
+    try {
+
+        $dbh = dbConnect();
+
+        $sql = 'SELECT memo_id, m.title, ideal, solution, attempt, reference, etc, m.created_at, is_published, c.title AS category_title FROM memos AS m INNER JOIN categories AS c ON m.category_id = c.category_id WHERE memo_id = :memo_id AND m.is_deleted = 0';
+        $data = array(
+            ':memo_id' => $memo_id,
+        );
+
+        $memo = fetch($dbh, $sql, $data);
+        return $memo;
+
+    } catch (Exception $e) {
+        error_log('エラー発生:' . $e->getMessage());
+        $err_msg['common'] = ERR_MSG;
+    }
+}
