@@ -2,6 +2,9 @@
 
 require_once '../utility/utility.php';
 require_once '../function/user.php';
+require_once '../function/memo.php';
+
+$memos = fetchMemos($err_msg);
 
 $page_title = 'マイページ';
 require_once '../template/head.php';
@@ -22,9 +25,15 @@ require_once '../template/header.php';
             <span class="count"></span>件
         </div>
 
-        <!-- 自分のメモリスト -->
+        <!-- メモリスト -->
         <ul class="memo-list">
-            <li class="memo-list__item"><a href="" class="memo-list__link">メモ</a></li>
+            <?php if (!empty($memos)) : ?>
+                <?php foreach ($memos as $memo) : ?>
+                    <li class="memo-list__item"><a href="memo_detail.php?memo_id=<?= escape($memo['memo_id']); ?>" class="memo-list__link"><?= escape($memo['category_title']); ?> / <?= escape($memo['memo_title']); ?></a></li>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <li>メモがありません</li>
+            <?php endif; ?>
         </ul>
 
         <!-- ページネーション -->
