@@ -5,7 +5,7 @@ require_once '../function/category.php';
 require_once '../function/memo.php';
 
 $user_id = (int)$_SESSION['user_id'];
-$memo_id = (!empty($_GET['memo_id'])) ? $_GET['memo_id'] : '';
+$memo_id = (!empty($_GET['memo_id'])) ? (int)$_GET['memo_id'] : '';
 $memo = (!empty($memo_id)) ? fetchMemo($err_msg, $memo_id) : '';
 $editFlag = (!empty($memo)) ? true : false;
 
@@ -73,6 +73,18 @@ if (!empty($_POST)) {
             editMemo($err_msg, $memo_id, $category_id, $title, $ideal, $solution, $attempt, $reference, $etc, $is_solved, $is_published);
 
             header('Location: memo_form.php?memo_id=' . $memo_id);
+        }
+    }
+
+    if (!empty($_POST['delete_memo'])) {
+
+        validInt($err_msg, $memo_id);
+
+        if (empty($err_msg)) {
+
+            deleteMemo($err_msg, $memo_id);
+
+            header('Location: mypage.php');
         }
     }
 }
