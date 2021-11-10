@@ -143,3 +143,29 @@ function editMemo(&$err_msg, $memo_id, $category_id, $title, $ideal, $solution, 
         $err_msg['common'] = ERR_MSG.'編集';
     }
 }
+
+
+/**
+ * メモ1件削除
+ * @param array $err_msg
+ * @param int $memo_id
+ */
+function deleteMemo(&$err_msg, $memo_id) {
+
+    try {
+
+        $dbh = dbConnect();
+
+        $sql = 'UPDATE memos SET is_deleted = 1 WHERE memo_id = :memo_id AND is_deleted = 0';
+        $data = array(
+            ':memo_id' => $memo_id
+        );
+
+        if (execute($dbh, $sql, $data)) {
+            return true;
+        }
+    } catch (Exception $e) {
+        error_log('エラー発生:' . $e->getMessage());
+        $err_msg['common'] = ERR_MSG;
+    }
+}
