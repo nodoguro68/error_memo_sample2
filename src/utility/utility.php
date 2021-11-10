@@ -27,17 +27,34 @@ function getErrMsg(&$err_msg, $key)
  * フォームの入力保持
  * 
  * @param string $key
+ * @param array $dbFormData
  * @param bool $flag
  */
-function getFormData($key, $flag = false)
+function getFormData($str, $dbFormData = null, $flag = false)
 {
     if ($flag) {
         $method = $_GET;
     } else {
         $method = $_POST;
     }
-    if (!empty($method[$key])) {
-        return escape($method[$key]);
+    if (!empty($dbFormData)) {
+        if (!empty($err_msg[$str])) {
+            if (isset($method[$str])) {
+                return escape($method[$str]);
+            } else {
+                return escape($dbFormData[$str]);
+            }
+        } else {
+            if (isset($method[$str]) && $method[$str] !== $dbFormData[$str]) {
+                return escape($method[$str]);
+            } else {
+                return escape($dbFormData[$str]);
+            }
+        }
+    } else {
+        if (isset($method[$str])) {
+            return escape($method[$str]);
+        }
     }
 }
 
