@@ -47,6 +47,29 @@ function createMemo(&$err_msg, $user_id, $folder_id, $category_id, $title, $idea
     }
 }
 
+/**
+ * メモ全件取得
+ * @param array $err_msg
+ * @return mixed
+ */
+function fetchMemos(&$err_msg)
+{
+    try {
+
+        $dbh = dbConnect();
+
+        $sql = 'SELECT memo_id, m.category_id AS category_id, m.title AS memo_title, c.title AS category_title FROM memos AS m INNER JOIN categories AS c ON m.category_id = c.category_id WHERE is_published = 1 AND m.is_deleted = 0';
+        $stmt = $dbh->query($sql);
+
+        $memos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $memos;
+
+    } catch (Exception $e) {
+        error_log('エラー発生:' . $e->getMessage());
+        $err_msg['common'] = ERR_MSG;
+    }
+}
+
 
 /**
  * フォルダ内のメモ全件取得
