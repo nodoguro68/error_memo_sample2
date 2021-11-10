@@ -18,7 +18,7 @@ if (!empty($_POST)) {
         $folder_id = (int)$_SESSION['folder_id'];
         $category_id = (int)filter_input(INPUT_POST, 'category_id');
         $title = filter_input(INPUT_POST, 'title');
-        $is_solved = filter_input(INPUT_POST, 'is_solved');
+        $is_solved = (int)filter_input(INPUT_POST, 'is_solved');
         $is_published = filter_input(INPUT_POST, 'is_published');
         $ideal = filter_input(INPUT_POST, 'ideal');
         $solution = filter_input(INPUT_POST, 'solution');
@@ -27,6 +27,7 @@ if (!empty($_POST)) {
         $etc = filter_input(INPUT_POST, 'etc');
 
         validRequired($err_msg, $title, 'title');
+        validSolved($err_msg, $is_solved, $solution);
 
         if (empty($err_msg)) {
 
@@ -46,22 +47,25 @@ if (!empty($_POST)) {
         $category_id = (int)filter_input(INPUT_POST, 'category_id');
         $title = filter_input(INPUT_POST, 'title');
         $is_published = filter_input(INPUT_POST, 'is_published');
-        $is_solved = filter_input(INPUT_POST, 'is_solved');
+        $is_solved = (int)filter_input(INPUT_POST, 'is_solved');
         $ideal = filter_input(INPUT_POST, 'ideal');
         $solution = filter_input(INPUT_POST, 'solution');
         $attempt = filter_input(INPUT_POST, 'attempt');
         $reference = filter_input(INPUT_POST, 'reference');
         $etc = filter_input(INPUT_POST, 'etc');
 
-        validRequired($err_msg, $title, 'title');
-
+        
         // DBのデータとpostの値が同じかどうかチェック
         // バリデーション
         if ((int)$memo['category_id'] !== $category_id) {
             validInt($err_msg, $category_id);
         }
         if ($memo['title'] !== $title) {
+            validRequired($err_msg, $title, 'title');
             validMaxLen($err_msg, $title, 'title');
+        }
+        if ($memo['is_solved'] !== $is_solved) {
+            validSolved($err_msg, $is_solved, $solution);
         }
 
         if (empty($err_msg)) {
