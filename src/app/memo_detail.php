@@ -27,7 +27,6 @@ require_once '../template/header.php';
                 <span class="date"><?= formatStr(escape($memo['created_at']), 0, 10); ?></span>
                 <span class="favorite">いいね</span>
                 <span class="category"><?= escape($memo['category_title']); ?></span>
-                <span class=""><?= $memo_public_text = ((int)$memo['is_published'] === 0 ? '非公開' : '公開済み'); ?></span>
             </div>
             <div class="section_body">
                 <p><?= escape($memo['ideal']); ?></p>
