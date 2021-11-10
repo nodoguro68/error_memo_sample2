@@ -144,6 +144,31 @@ function editMemo(&$err_msg, $memo_id, $category_id, $title, $ideal, $solution, 
     }
 }
 
+/**
+ * フォルダ内のメモ全件削除
+ * @param array $err_msg
+ * @param int $folder_id
+ */
+function deleteMemosInFolder(&$err_msg, $folder_id)
+{
+
+    try {
+
+        $dbh = dbConnect();
+
+        $sql = 'UPDATE memos SET is_deleted = 1 WHERE folder_id = :folder_id AND is_deleted = 0';
+        $data = array(
+            ':folder_id' => $folder_id
+        );
+
+        if (execute($dbh, $sql, $data)) {
+            return true;
+        }
+    } catch (Exception $e) {
+        error_log('エラー発生:' . $e->getMessage());
+        $err_msg['common'] = ERR_MSG;
+    }
+}
 
 /**
  * メモ1件削除
