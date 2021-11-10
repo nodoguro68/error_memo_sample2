@@ -253,3 +253,12 @@ function validInt(&$err_msg, $int) {
         $err_msg['common'] = ERR_MSG;
     }
 }
+
+/**
+ * 解決済みのときに解決方法が入力されているかどうかチェック
+ */
+function validSolved(&$err_msg, $is_solved, $solution) {
+    if ($is_solved === 1 && empty($solution)) {
+        $err_msg['is_solved'] = ERR_MSG_SOLVED;
+    }
+}
