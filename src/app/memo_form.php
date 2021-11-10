@@ -97,8 +97,8 @@ require_once '../template/header.php';
                 </div>
                 <!-- 公開するかどうか -->
                 <div class="form__item">
-                    <label for="private" class="form__label">非公開</label><input type="radio" name="is_published" value="0" id="private" <?php if ((int)$memo['is_published'] === 0) echo 'checked'; ?>>
-                    <label for="public" class="form__label">公開</label><input type="radio" name="is_published" value="1" id="public" <?php if ((int)$memo['is_published'] === 1) echo 'checked'; ?>>
+                    <label for="private" class="form__label">非公開</label><input type="radio" name="is_published" value="0" id="private" <?php if ((int)getFormData('is_published', $memo) === 0) echo 'checked'; ?>>
+                    <label for="public" class="form__label">公開</label><input type="radio" name="is_published" value="1" id="public" <?php if ((int)getFormData('is_published', $memo) === 1) echo 'checked'; ?>>
                     <span class="err-msg"><?= getErrMsg($err_msg, 'is_published'); ?></span>
                 </div>
                 <!-- カテゴリー -->
@@ -107,7 +107,7 @@ require_once '../template/header.php';
                     <select name="category_id" id="category" class="form__select">
                         <?php if (!empty($categories)) : ?>
                             <?php foreach ($categories as $category) : ?>
-                                <option value="<?= escape($category['category_id']); ?>" <?php if ($memo['category_id'] === $category['category_id']) echo 'selected'; ?>><?= escape($category['title']); ?></option>
+                                <option value="<?= escape($category['category_id']); ?>" <?php if (getFormData('category_id', $memo) === $category['category_id']) echo 'selected'; ?>><?= escape($category['title']); ?></option>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </select>
