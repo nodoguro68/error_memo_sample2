@@ -84,7 +84,7 @@ require_once '../template/header.php';
                 <h2 class="form__title"><?= ($editFlag) ? 'メモ編集' : 'メモ新規登録'; ?></h2>
                 <?php include_once '../template/err-msg_area.php'; ?>
                 <?php if ($editFlag) : ?>
-                    <span class="date"><?= formatStr(escape($memo['created_at']), 0, 10); ?></span>
+                    <span class="date">登録日<?= formatStr(escape($memo['created_at']), 0, 10); ?></span>
                     <input type="submit" name="delete_memo" value="削除">
                 <?php endif; ?>
             </div>
