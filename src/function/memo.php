@@ -84,7 +84,7 @@ function fetchMemo(&$err_msg, $memo_id)
 
         $dbh = dbConnect();
 
-        $sql = 'SELECT memo_id, m.title, ideal, solution, attempt, reference, etc, m.created_at, is_published, c.title AS category_title FROM memos AS m INNER JOIN categories AS c ON m.category_id = c.category_id WHERE memo_id = :memo_id AND m.is_deleted = 0';
+        $sql = 'SELECT memo_id, m.category_id, m.title, ideal, solution, attempt, reference, etc, m.created_at, is_published, c.title AS category_title FROM memos AS m INNER JOIN categories AS c ON m.category_id = c.category_id WHERE memo_id = :memo_id AND m.is_deleted = 0';
         $data = array(
             ':memo_id' => $memo_id,
         );
@@ -95,5 +95,47 @@ function fetchMemo(&$err_msg, $memo_id)
     } catch (Exception $e) {
         error_log('エラー発生:' . $e->getMessage());
         $err_msg['common'] = ERR_MSG;
+    }
+}
+
+
+/**
+ * メモ編集
+ * @param array $err_msg
+ * @param int $user_id
+ * @param int $category_id
+ * @param string $title
+ * @param string $ideal
+ * @param string $solution
+ * @param string $attenmp
+ * @param string $reference
+ * @param string $etc
+ * @param $is_published
+ */
+function editMemo(&$err_msg, $memo_id, $category_id, $title, $ideal, $solution, $attempt, $reference, $etc, $is_published) {
+    try {
+        $dbh = dbConnect();
+        $sql = 'UPDATE memos SET category_id = :category_id, title = :title, ideal = :ideal, solution = :solution, attempt = :attempt, reference = :reference, etc = :etc, is_published = :is_published WHERE memo_id = :memo_id AND is_deleted = 0';
+
+        $data = array(
+            ':memo_id' => $memo_id,
+            ':category_id' => $category_id,
+            ':title' => $title,
+            ':ideal' => $ideal,
+            ':solution' => $solution,
+            ':attempt' => $attempt,
+            ':reference' => $reference,
+            ':etc' => $etc,
+            ':is_published' => $is_published,
+        );
+
+        if (execute($dbh, $sql, $data)) {
+
+            return;
+        }
+
+    } catch (Exception $e) {
+        error_log('エラー発生:' . $e->getMessage());
+        $err_msg['common'] = ERR_MSG.'編集';
     }
 }
