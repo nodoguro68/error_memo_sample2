@@ -25,6 +25,7 @@ if (!empty($_GET)) {
         if (empty($err_msg)) {
 
             deleteFolder($err_msg, $folder_id, $user_id);
+            deleteMemosInFolder($err_msg, $folder_id);
 
             header('Location: mypage.php');
         }
