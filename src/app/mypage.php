@@ -7,6 +7,7 @@ require_once '../function/memo.php';
 
 $user_id = $_SESSION['user_id'];
 $folders = fetchFolders($err_msg, $user_id);
+$unsolved_memos = fetchUnsolvedMemos($err_msg, $user_id);
 
 if (!empty($_GET)) {
 
@@ -123,7 +124,13 @@ require_once '../template/header.php';
 
         <!-- 未解決のメモリスト -->
         <ul class="memo-list">
-            <li class="memo-list__item"><a href="" class="memo-list__link">未解決</a></li>
+            <?php if (!empty($unsolved_memos)) : ?>
+                <?php foreach ($unsolved_memos as $memo) : ?>
+                    <li class="memo-list__item"><a href="memo_form.php?memo_id=<?= escape($memo['memo_id']); ?>" class="memo-list__link"><?= escape($memo['title']); ?></a></li>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <li>メモがありません</li>
+            <?php endif; ?>
         </ul>
 
         <!-- 解決済みのメモリスト -->
