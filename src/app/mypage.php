@@ -82,6 +82,8 @@ require_once '../template/header.php';
         <!-- フォルダといいねの切り替えのタブ -->
         <ul class="tab-menu">
             <li class="tab-menu__item">マイフォルダ</li>
+            <li class="tab-menu__item">未解決</li>
+            <li class="tab-menu__item">解決済み</li>
             <li class="tab-menu__item">いいね</li>
         </ul>
 
@@ -118,6 +120,16 @@ require_once '../template/header.php';
                 <?php endif; ?>
             </ul>
         </section>
+
+        <!-- 未解決のメモリスト -->
+        <ul class="memo-list">
+            <li class="memo-list__item"><a href="" class="memo-list__link">未解決</a></li>
+        </ul>
+
+        <!-- 解決済みのメモリスト -->
+        <ul class="memo-list">
+            <li class="memo-list__item"><a href="" class="memo-list__link">解決済み</a></li>
+        </ul>
 
         <!-- いいね蘭のメモリスト -->
         <ul class="memo-list">
