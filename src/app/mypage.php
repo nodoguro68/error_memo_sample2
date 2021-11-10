@@ -15,7 +15,7 @@ if (!empty($_GET)) {
     if (!empty($_GET['folder_id'])) {
         $folder_id = (int)filter_input(INPUT_GET, 'folder_id');
         $db_folder_data = fetchFolder($err_msg, $folder_id, $user_id);
-        $memos = fetchMemos($err_msg, $user_id, $folder_id);
+        $memos = fetchMemosInFolder($err_msg, $user_id, $folder_id);
         $_SESSION['folder_id'] = $folder_id;
     }
 

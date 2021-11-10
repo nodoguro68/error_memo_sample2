@@ -55,7 +55,7 @@ function createMemo(&$err_msg, $user_id, $folder_id, $category_id, $title, $idea
  * @param int $folder_id
  * @return mixed
  */
-function fetchMemos(&$err_msg, $user_id, $folder_id) {
+function fetchMemosInFolder(&$err_msg, $user_id, $folder_id) {
     try {
 
         $dbh = dbConnect();
