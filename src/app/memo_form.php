@@ -18,6 +18,7 @@ if (!empty($_POST)) {
         $folder_id = (int)$_SESSION['folder_id'];
         $category_id = (int)filter_input(INPUT_POST, 'category_id');
         $title = filter_input(INPUT_POST, 'title');
+        $is_solved = filter_input(INPUT_POST, 'is_solved');
         $is_published = filter_input(INPUT_POST, 'is_published');
         $ideal = filter_input(INPUT_POST, 'ideal');
         $solution = filter_input(INPUT_POST, 'solution');
@@ -32,7 +33,7 @@ if (!empty($_POST)) {
             if (empty($err_msg)) {
 
                 // メモ登録
-                createMemo($err_msg, $user_id, $folder_id, $category_id, $title, $ideal, $solution, $attempt, $reference, $etc, $is_published);
+                createMemo($err_msg, $user_id, $folder_id, $category_id, $title, $ideal, $solution, $attempt, $reference, $etc, $is_solved, $is_published);
 
                 header('Location: mypage.php?folder_id=' . $folder_id);
             }
@@ -45,6 +46,7 @@ if (!empty($_POST)) {
         $category_id = (int)filter_input(INPUT_POST, 'category_id');
         $title = filter_input(INPUT_POST, 'title');
         $is_published = filter_input(INPUT_POST, 'is_published');
+        $is_solved = filter_input(INPUT_POST, 'is_solved');
         $ideal = filter_input(INPUT_POST, 'ideal');
         $solution = filter_input(INPUT_POST, 'solution');
         $attempt = filter_input(INPUT_POST, 'attempt');
@@ -64,7 +66,7 @@ if (!empty($_POST)) {
 
         if (empty($err_msg)) {
 
-            editMemo($err_msg, $memo_id, $category_id, $title, $ideal, $solution, $attempt, $reference, $etc, $is_published);
+            editMemo($err_msg, $memo_id, $category_id, $title, $ideal, $solution, $attempt, $reference, $etc, $is_solved, $is_published);
 
             header('Location: memo_form.php?memo_id=' . $memo_id);
         }
@@ -100,6 +102,12 @@ require_once '../template/header.php';
                     <label for="private" class="form__label">非公開</label><input type="radio" name="is_published" value="0" id="private" <?php if ((int)getFormData('is_published', $memo) === 0) echo 'checked'; ?>>
                     <label for="public" class="form__label">公開</label><input type="radio" name="is_published" value="1" id="public" <?php if ((int)getFormData('is_published', $memo) === 1) echo 'checked'; ?>>
                     <span class="err-msg"><?= getErrMsg($err_msg, 'is_published'); ?></span>
+                </div>
+                <!-- 解決済みかどうか -->
+                <div class="form__item">
+                    <label for="unsolved" class="form__label">未解決</label><input type="radio" name="is_solved" value="0" id="unsolved" <?php if ((int)getFormData('is_solved', $memo) === 0) echo 'checked'; ?>>
+                    <label for="solved" class="form__label">解決済み</label><input type="radio" name="is_solved" value="1" id="solved" <?php if ((int)getFormData('is_solved', $memo) === 1) echo 'checked'; ?>>
+                    <span class="err-msg"><?= getErrMsg($err_msg, 'is_solved'); ?></span>
                 </div>
                 <!-- カテゴリー -->
                 <div class="form__item">
