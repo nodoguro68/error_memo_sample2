@@ -110,7 +110,7 @@ require_once '../template/header.php';
             <ul class="memo-list">
                 <?php if (!empty($memos)) : ?>
                     <?php foreach ($memos as $memo) : ?>
-                        <li class="memo-list__item"><a href="memo.php?memo_id=<?= escape($memo['memo_id']); ?>" class="memo-list__link"><?= escape($memo['title']); ?></a></li>
+                        <li class="memo-list__item"><a href="memo_form.php?memo_id=<?= escape($memo['memo_id']); ?>" class="memo-list__link"><?= escape($memo['title']); ?></a></li>
                     <?php endforeach; ?>
                 <?php else : ?>
                     <li>メモがありません</li>
