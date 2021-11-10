@@ -94,7 +94,32 @@ function fetchUnsolvedMemos(&$err_msg, $user_id)
 
         $memos = fetchAll($dbh, $sql, $data);
         return $memos;
-        
+
+    } catch (Exception $e) {
+        error_log('エラー発生:' . $e->getMessage());
+        $err_msg['common'] = ERR_MSG;
+    }
+}
+
+/**
+ * 解決済みのメモ全件取得
+ * @param array $err_msg
+ * @param int $user_id
+ * @return mixed
+ */
+function fetchSolvedMemos(&$err_msg, $user_id)
+{
+    try {
+
+        $dbh = dbConnect();
+
+        $sql = 'SELECT memo_id, title, is_published FROM memos WHERE user_id = :user_id AND is_solved = 1 AND is_deleted = 0';
+        $data = array(
+            ':user_id' => $user_id,
+        );
+
+        $memos = fetchAll($dbh, $sql, $data);
+        return $memos;
     } catch (Exception $e) {
         error_log('エラー発生:' . $e->getMessage());
         $err_msg['common'] = ERR_MSG;
