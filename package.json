@@ -19,5 +19,8 @@
   "homepage": "https://github.com/nodoguro68/error_memo#readme",
   "dependencies": {
     "jquery": "^3.6.0"
+  },
+  "devDependencies": {
+    "browserify": "^17.0.0"
   }
 }
