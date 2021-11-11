@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/nodoguro68/error_memo/issues"
   },
-  "homepage": "https://github.com/nodoguro68/error_memo#readme"
+  "homepage": "https://github.com/nodoguro68/error_memo#readme",
+  "dependencies": {
+    "jquery": "^3.6.0"
+  }
 }
