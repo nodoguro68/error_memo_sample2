@@ -1,2 +1,3 @@
 php.log
 node_modules/
+src/resource/js/bundle.js
