@@ -25,7 +25,7 @@ require_once '../template/header.php';
             <div class="section__header">
                 <h2><?= escape($memo['title']); ?></h2>
                 <span class="date"><?= formatStr(escape($memo['created_at']), 0, 10); ?></span>
-                <span class="favorite">いいね</span>
+                <button type="button" class="favorite js-click-favorite <?php if(isFavoriteMemo($err_msg, $memo['memo_id'], $_SESSION['user_id'])) echo 'active'; ?>" aria-hidden="true" data-memoid="<?= escape($memo['memo_id']); ?>">いいね</button>
                 <span class="category"><?= escape($memo['category_title']); ?></span>
             </div>
             <div class="section_body">
@@ -42,6 +42,8 @@ require_once '../template/header.php';
     </div>
 
 </main>
+
+    <script src="../resource/js/bundle.js"></script>
 </body>
 
 </html>
