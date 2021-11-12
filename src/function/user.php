@@ -126,3 +126,59 @@ function login(&$err_msg, $mail_address, $password, $pass_save, $admin_flag)
         $err_msg['common'] = ERR_MSG_LOGIN;
     }
 }
+
+/**
+ * パスワード取得
+ * 
+ * @param array $err_msg
+ * @param int $user_id
+ * @return 
+ */
+function getPassword(&$err_msg, $user_id) {
+    
+    try {
+
+        $dbh = dbConnect();
+
+        $sql = 'SELECT password FROM users WHERE user_id = :user_id AND is_deleted = 0';
+        $data = array(':user_id' => $user_id);
+
+        $user_data = fetch($dbh, $sql, $data);
+        return $user_data;
+        
+    } catch (Exception $e) {
+        error_log('エラー発生:' . $e->getMessage());
+        $err_msg['common'] = ERR_MSG;
+    }
+}
+
+/**
+ * パスワード変更
+ * 
+ * @param array $err_msg
+ * @param int $user_id
+ * @param string $new_password
+ * @return 
+ */
+function updatePass(&$err_msg, $user_id, $new_password) {
+
+    try {
+
+        $dbh = dbConnect();
+
+        $sql = 'UPDATE users SET password = :password WHERE user_id = :user_id AND is_deleted = 0';
+        $data = array(
+            ':user_id' => $user_id,
+            ':password' => password_hash($new_password, PASSWORD_DEFAULT),
+        );
+
+        if (execute($dbh, $sql, $data)) {
+
+            return true;
+        }
+        
+    } catch (Exception $e) {
+        error_log('エラー発生:' . $e->getMessage());
+        $err_msg['common'] = ERR_MSG;
+    }
+}
