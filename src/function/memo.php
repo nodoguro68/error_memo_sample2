@@ -149,6 +149,32 @@ function fetchSolvedMemos(&$err_msg, $user_id)
     }
 }
 
+
+/**
+ * いいねしているメモ全件取得
+ * @param array $err_msg
+ * @param int $memo_id
+ * @param int $user_id
+ */
+function fetchFavoriteMemos(&$err_msg, $user_id) {
+    try {
+
+        $dbh = dbConnect();
+
+        $sql = 'SELECT fm.memo_id AS memo_id, m.title AS title FROM favorite_memos AS fm INNER JOIN memos AS m ON fm.memo_id = m.memo_id WHERE fm.user_id = :user_id';
+        $data = array(
+            ':user_id' => $user_id,
+        );
+
+        $memos = fetchAll($dbh, $sql, $data);
+        return $memos;
+
+    } catch (Exception $e) {
+        error_log('エラー発生:' . $e->getMessage());
+        $err_msg['common'] = ERR_MSG;
+    }
+}
+
 /**
  * メモ詳細取得
  * @param array $err_msg
