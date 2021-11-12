@@ -269,3 +269,84 @@ function deleteMemo(&$err_msg, $memo_id) {
         $err_msg['common'] = ERR_MSG;
     }
 }
+
+
+/**
+ * いいねされているメモがあるかチェックする
+ */
+function checkFavoriteMemo($memo_id, $user_id) {
+
+    $dbh = dbConnect();
+
+    $sql = 'SELECT memo_id FROM favorite_memos  WHERE memo_id = :memo_id AND user_id = :user_id';
+    $data = array(
+        ':memo_id' => $memo_id,
+        ':user_id' => $user_id,
+    );
+
+    $stmt = execute($dbh, $sql, $data);
+    return $resultCount = $stmt->rowCount();
+}
+
+/**
+ * いいねを新規登録
+ */
+function createFavoriteMemo($memo_id, $user_id) {
+
+    $dbh = dbConnect();
+
+    $sql = 'INSERT INTO favorite_memos (memo_id, user_id, created_at) VALUES (:memo_id, :user_id, :created_at)';
+    $data = array(
+        ':memo_id' => $memo_id,
+        ':user_id' => $user_id,
+        ':created_at' => date('Y-m-d H:i:s')
+    );
+    
+    if (execute($dbh, $sql, $data)) {
+
+        return true;
+    }
+}
+
+
+/**
+ * いいねを削除
+ */
+function deleteFavoriteMemo($memo_id, $user_id) {
+
+    $dbh = dbConnect();
+
+    $sql = 'DELETE FROM favorite_memos WHERE memo_id = :memo_id AND user_id = :user_id';
+    $data = array(
+        ':memo_id' => $memo_id,
+        ':user_id' => $user_id
+    );
+
+    if (execute($dbh, $sql, $data)) {
+
+        return true;
+    }
+}
+
+
+/**
+ * いいねされていればactiveクラスをつける
+ */
+function isFavoriteMemo(&$err_msg, $memo_id, $user_id) {
+
+    try {
+        $dbh = dbConnect();
+        $sql = 'SELECT memo_id FROM favorite_memos WHERE memo_id = :memo_id AND user_id = :user_id';
+        $data = array(':memo_id' => $memo_id, ':user_id' => $user_id);
+        $stmt = execute($dbh, $sql, $data);
+
+        if ($stmt->rowCount()) {
+            return true;
+        } else {
+            return false;
+        }
+
+    } catch (Exception $e) {
+        error_log('エラー発生:' . $e->getMessage());
+    }
+}
