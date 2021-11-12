@@ -134,7 +134,7 @@ function login(&$err_msg, $mail_address, $password, $pass_save, $admin_flag)
  * @param int $user_id
  * @return 
  */
-function getPassword(&$err_msg, $user_id) {
+function fetchPass(&$err_msg, $user_id) {
     
     try {
 
