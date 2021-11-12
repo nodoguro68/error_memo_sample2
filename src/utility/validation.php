@@ -126,7 +126,7 @@ function validPass(&$err_msg, $pass, $key)
  */
 function validPassVerify(&$err_msg, $user_id, $pass, $key)
 {
-    $user_data = getPassword($err_msg, $user_id);
+    $user_data = fetchPass($err_msg, $user_id);
     if (!password_verify($pass, $user_data['password'])) {
         $err_msg[$key] = ERR_MSG_PASS_OLD;
     }
