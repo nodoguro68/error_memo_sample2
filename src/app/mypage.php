@@ -9,6 +9,7 @@ $user_id = $_SESSION['user_id'];
 $folders = fetchFolders($err_msg, $user_id);
 $unsolved_memos = fetchUnsolvedMemos($err_msg, $user_id);
 $solved_memos = fetchSolvedMemos($err_msg, $user_id);
+$favorite_memos = fetchFavoriteMemos($err_msg, $user_id);
 
 if (!empty($_GET)) {
 
@@ -147,7 +148,13 @@ require_once '../template/header.php';
 
         <!-- いいね蘭のメモリスト -->
         <ul class="memo-list">
-            <li class="memo-list__item"><a href="" class="memo-list__link">いいね</a></li>
+            <?php if (!empty($favorite_memos)) : ?>
+                <?php foreach ($favorite_memos as $memo) : ?>
+                    <li class="memo-list__item"><a href="memo_detail.php?memo_id=<?= escape($memo['memo_id']); ?>" class="memo-list__link"><?= escape($memo['title']); ?></a></li>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <li>メモがありません</li>
+            <?php endif; ?>
         </ul>
 
         <?php include_once '../template/err-msg_area.php'; ?>
