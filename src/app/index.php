@@ -6,7 +6,7 @@ require_once '../function/memo.php';
 
 $memos = fetchMemos($err_msg);
 
-$page_title = 'マイページ';
+$page_title = 'トップページ';
 require_once '../template/head.php';
 require_once '../template/header.php';
 ?>
