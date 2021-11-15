@@ -54,6 +54,8 @@ require_once '../template/header.php';
             <ul class="sidebar-list">
                 <li class="sidebar-list__item"><a href="admin_category_list.php" class="sidebar-list__link">カテゴリー一覧</a></li>
                 <li class="sidebar-list__item"><a href=".php" class="sidebar-list__link">CSV</a></li>
+                <li class="sidebar-list__item"><a href="admin_signout.php" class="sidebar-list__link">退会
+                </a></li>
             </ul>
         </aside>
 
