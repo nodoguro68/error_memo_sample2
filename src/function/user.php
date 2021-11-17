@@ -249,3 +249,61 @@ function deleteData($dbh, $table_name, $user_id, $admin_flag)
     }
 }
 
+
+/**
+ * プロフィール情報取得
+ * @param array $err_msg
+ * @param int $user_id
+ */
+function fetchProfileData(&$err_msg, $user_id) {
+
+    try {
+
+        $dbh = dbConnect();
+
+        $sql = 'SELECT mail_address, user_name, profile_img, github, facebook, twitter FROM users WHERE user_id = :user_id AND is_deleted = 0';
+
+        $data = array(
+            ':user_id' => $user_id,
+        );
+
+        $user_data = fetch($dbh, $sql, $data);
+        return $user_data;
+
+    } catch (Exception $e) {
+        error_log('エラー発生:' . $e->getMessage());
+        $err_msg['common'] = ERR_MSG;
+    }
+}
+
+
+/**
+ * プロフィール編集
+ * @param array $err_msg
+ */
+function editProfile($err_msg, $user_id, $mail_address, $user_name, $profile_img, $github, $facebook, $twitter) {
+
+    try {
+
+        $dbh = dbConnect();
+
+        $sql = 'UPDATE users SET mail_address = :mail_address, user_name = :user_name, profile_img = :profile_img, github = :github, facebook = :facebook, twitter = :twitter WHERE user_id = :user_id AND is_deleted = 0';
+        $data = array(
+            ':user_id' => $user_id,
+            ':mail_address' => $mail_address,
+            ':user_name' => $user_name,
+            ':profile_img' => $profile_img,
+            ':github' => $github,
+            ':facebook' => $facebook,
+            ':twitter' => $twitter,
+        );
+
+        if (execute($dbh, $sql, $data)) {
+
+            return true;
+        }
+    } catch (Exception $e) {
+        error_log('エラー発生:' . $e->getMessage());
+        $err_msg['common'] = ERR_MSG;
+    }
+}
