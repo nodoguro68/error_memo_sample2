@@ -1,3 +1,5 @@
 php.log
 node_modules/
 src/resource/js/bundle.js
+src/public/uploads/
+.DS_Store
